@@ -1,0 +1,189 @@
+html
+  head 
+    title="TMS"
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet")
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js") 
+    script.
+        $(document).ready(function() {
+        $("#route-select").on("change", function() {
+            var value = this.value;
+            switch (value) {
+            case "createUser":
+              showCreateUserForm();
+              break;
+            case "changeAccDets":
+              showChangeAccountDetailsForm();
+              break;
+            default:
+              hideForms();
+              break;
+            }
+        });
+
+        function showCreateUserForm() {
+          $("#createUserForm").show();
+          $("#showChangeAccountDetailsForm").hide();
+          $("#userTable").hide();
+        }
+
+        function showChangeAccountDetailsForm() {
+          $("#showChangeAccountDetailsForm").show();
+          $("#createUserForm").hide();
+          $("#userTable").hide();
+
+        }
+
+        function hideForms() {
+          $("#createUserForm").hide();
+          $("#showChangeAccountDetailsForm").hide();
+          $("#userTable").show();
+        }
+        });
+
+        function hideTable() {
+          $("#userTable").hide();
+        } 
+
+    style.
+      body {
+        background-color: #F0F8FF;
+      }
+
+      .row {
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-link {
+        color: #333;
+        font-weight: 600;
+        font-size: 18;
+        text-align: right;
+      }
+      
+      .container {
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: 600;
+        font-size: 18;
+        border-color: coral
+      }
+
+      .optionbox {
+        font-weight: 600;
+        font-size: 12;
+        text-align: center;
+        padding: 5px;
+      }
+
+      /* Add a dark overlay that covers the entire screen */
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+      }
+
+      /* Center the modal dialog vertically and horizontally */
+      .modal-dialog {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 10000;
+      }
+
+  body 
+    div(class="row")
+      div(class="d-flex row justify-content-between")
+        h2(class="pb-2 border-bottom d-flex column justify-content-between")="Task Management System"
+            <select id="route-select" class="optionbox">
+                <option value="">Select an Option</option>
+                <option value="createUser">Create New User</option>
+                <option value="changeAccDets">Change Account Details</option>
+            </select>
+
+            <small>
+                a(href="/", class = "nav-link")="Logout"
+            </small>
+             //if isLoggedIn ^this condition need to be for the above
+  
+      form#createUserForm(style="display:none;" action="/submitUser", method="post")
+        div.form-group
+          label(for="username") Username:
+          input#username.form-control(type="text", name="username", required)
+        div.form-group
+          label(for="password") Password:
+          input#password.form-control(type="password", name="password", required)
+        div.form-group
+          label(for="email") Email:
+          input#email.form-control(type="email", name="email", required)
+        div.form-group
+          label(for="userstatus") Status:
+          select#status.form-control(name="status")
+            option(value="active") Active
+            option(value="inactive") Inactive
+        div.form-group
+          label(for="usergroups") Usergroups:
+          select#status.form-control(name="status")
+            option(value="") Select a User Group
+
+            // JavaScript to fetch data from the server and generate options
+            script.
+              document.addEventListener('DOMContentLoaded', function() {
+                // Make an Axios GET request to fetch user groups
+                axios.get('/usergroups')
+                  .then(function(response) {
+                    // Loop through the data and generate <option> elements
+                    response.data.forEach(function(group) {
+                      var option = document.createElement('option');
+                      option.value = group.id;
+                      option.textContent = group.name;
+                      document.getElementById('group').appendChild(option);
+                    });
+                  })
+                  .catch(function(error) {
+                    console.error('Failed to fetch user groups:', error);
+                    alert('Failed to fetch user groups.');
+                  });
+              });        
+        button.btn.btn-primary(type="submit") Create User
+
+      form#showChangeAccountDetailsForm(style="display:none;" action="/submitUser", method="post")
+        div.form-group
+          label(for="username") Username:
+          input#username.form-control(type="text", name="username", required)
+        div.form-group
+          label(for="email") Email:
+          input#email.form-control(type="email", name="email", required)
+        button.btn.btn-primary(type="submit") Update Account Details
+
+
+      div(class="container" id="userTable")      
+        table(style="text-align:center;")
+          thead
+            tr
+              th Username
+              th Password
+              th Email
+              th Status
+              th User Groups
+          tbody
+            tr
+              td devvy
+              td wevvy
+              td 101@101.com
+              td 1
+              td admin, user, dev
+            

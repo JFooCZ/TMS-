@@ -1,0 +1,24 @@
+body {
+  background-color: #f0f8ff;
+}
+
+.row {
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  color: #333;
+  font-weight: 600;
+  font-size: 18px;
+  text-align: right;
+}
+
+.audit-trail {
+  font-weight: 600;
+  font-size: 18px;
+  text-align: left;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
